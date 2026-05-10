@@ -1,0 +1,29 @@
+{
+    "full_name": "Jane Doe",
+    "headline": "Senior Software Engineer | Python & Cloud Architect",
+    "summary": "Experienced software engineer with 10+ years in building scalable web applications. Expert in Python, AWS, and Distributed Systems.",
+    "experiences": [
+        {
+            "title": "Senior Software Engineer",
+            "company": "Tech Innovators Inc.",
+            "start_date": "2018",
+            "end_date": "Present",
+            "description": "Led a team of 5 engineers to migrate legacy monolith to microservices using FastAPI and Kubernetes. Improved system performance by 40%."
+        },
+        {
+            "title": "Backend Developer",
+            "company": "DataFlow Systems",
+            "start_date": "2014",
+            "end_date": "2018",
+            "description": "Developed robust ETL pipelines using Python and SQL. Collaborated with data scientists to optimize query performance."
+        }
+    ],
+    "education": [
+        {
+            "school": "Stanford University",
+            "degree": "Master of Science",
+            "field_of_study": "Computer Science"
+        }
+    ],
+    "skills": ["Python", "AWS", "Docker", "Kubernetes", "FastAPI", "PostgreSQL", "System Design"]
+}

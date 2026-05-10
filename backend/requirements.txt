@@ -1,0 +1,12 @@
+streamlit
+google-generativeai
+PyMuPDF
+python-docx
+jinja2
+python-dotenv
+langchain
+langchain-google-genai
+pandas
+python-multipart
+fastapi
+uvicorn
