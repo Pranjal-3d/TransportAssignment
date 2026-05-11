@@ -121,4 +121,4 @@ The application automatically detects its environment. On `localhost`, it connec
 ---
 
 ## 📄 License
-MIT © 2026 Antigravity AI Team
+MIT © 2026
