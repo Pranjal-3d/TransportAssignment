@@ -15,17 +15,17 @@ A premium, enterprise-grade AI HR agent that automates the candidate screening p
 
 ```mermaid
 graph TD
-    User((HR Professional))
-    Sub_JD[JD Text Input]
-    Sub_Resumes[Resume/LinkedIn Upload]
+    User(("HR Professional"))
+    Sub_JD["JD Text Input"]
+    Sub_Resumes["Resume/LinkedIn Upload"]
     
-    API[FastAPI Backend]
+    API["FastAPI Backend"]
     
-    Agent[HR Scorer Agent]
-    LLM[Gemini 1.5 Pro]
-    Parser[Text Extraction Engine]
+    Agent["HR Scorer Agent"]
+    LLM["Gemini 1.5 Pro"]
+    Parser["Text Extraction Engine"]
     
-    DB[(In-Memory State)]
+    DB[("In-Memory State")]
     
     User --> Sub_JD
     User --> Sub_Resumes
@@ -39,7 +39,7 @@ graph TD
     Agent --> API
     
     API --> DB
-    DB --> UI[React Analysis Dashboard]
+    DB --> UI["React Analysis Dashboard"]
     UI --> User
     
     subgraph "Reasoning Loop"
