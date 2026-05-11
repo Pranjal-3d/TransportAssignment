@@ -1,4 +1,4 @@
-# 🎯 Antigravity HR: AI Talent Agent
+# HR: AI Talent Agent
 
 A premium, enterprise-grade AI HR agent that automates the candidate screening process with precision and transparency. This system evaluates candidates against 5 key dimensions using state-of-the-art LLMs, providing a structured and explainable shortlisting experience.
 
