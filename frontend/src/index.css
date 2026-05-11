@@ -4,8 +4,8 @@
   --bg-primary: #0a0a0b;
   --bg-sidebar: #111113;
   --bg-card: #1c1c1f;
-  --accent-primary: #3b82f6;
-  --accent-hover: #2563eb;
+  --accent-primary: #ffffff;
+  --accent-hover: #e4e4e7;
   --text-primary: #ffffff;
   --text-secondary: #a1a1aa;
   --text-muted: #71717a;
@@ -72,9 +72,9 @@ body {
 .main-content {
   flex: 1;
   background-color: var(--bg-primary);
-  background-image: 
-    radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
-    radial-gradient(at 50% 0%, hsla(225,39%,30%,0.1) 0, transparent 50%);
+  background-image:
+    radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
+    radial-gradient(at 50% 0%, hsla(0, 0%, 100%, 0.05) 0, transparent 50%);
   overflow-y: auto;
   padding: 2.5rem;
   position: relative;
@@ -138,7 +138,7 @@ body {
 .btn-primary {
   width: 100%;
   background: var(--accent-primary);
-  color: white;
+  color: #000;
   border: none;
   padding: 0.75rem;
   border-radius: 8px;
@@ -294,11 +294,27 @@ body {
   gap: 0.5rem;
 }
 
-.status-toast.error { background: rgba(239, 68, 68, 0.1); border: 1px solid var(--error); color: var(--error); }
-.status-toast.success { background: rgba(16, 185, 129, 0.1); border: 1px solid var(--success); color: var(--success); }
+.status-toast.error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid var(--error);
+  color: var(--error);
+}
 
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 3px; }
+.status-toast.success {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid var(--success);
+  color: var(--success);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3f3f46;
+  border-radius: 3px;
+}
+
 .stats-container {
   display: flex;
   gap: 1.5rem;
@@ -310,9 +326,10 @@ body {
     overflow-x: auto;
     padding-bottom: 0.5rem;
     scrollbar-width: none;
-    -ms-overflow-style: none; /* IE/Edge */
+    -ms-overflow-style: none;
+    /* IE/Edge */
   }
-  
+
   .stats-container::-webkit-scrollbar {
     display: none;
   }
@@ -394,14 +411,14 @@ body {
     gap: 1.5rem;
   }
 
-  header > div:last-child {
+  header>div:last-child {
     width: 100%;
     overflow-x: auto;
     padding-bottom: 0.5rem;
     scrollbar-width: none;
   }
 
-  header > div:last-child::-webkit-scrollbar {
+  header>div:last-child::-webkit-scrollbar {
     display: none;
   }
 }
@@ -426,7 +443,7 @@ body {
     padding: 1.25rem;
   }
 
-  .modal-body > div {
+  .modal-body>div {
     grid-template-columns: 1fr !important;
     gap: 2rem !important;
   }
@@ -445,7 +462,7 @@ body {
   .app-wrapper {
     overflow: hidden;
   }
-  
+
   .sidebar {
     height: 100vh;
   }

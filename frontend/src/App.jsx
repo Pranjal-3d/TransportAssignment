@@ -22,7 +22,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'https://transportassignment.onrender.com';
+const API_BASE = import.meta.env.VITE_API_BASE || (window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://transportassignment.onrender.com');
 console.log('API_BASE being used:', API_BASE);
 
 function App() {
@@ -115,7 +115,7 @@ function App() {
       {/* SIDEBAR */}
       <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
-          <div className="tool-name">AI Talent Engine <span className="tool-tag">v2.1</span></div>
+          <div className="tool-name">AI Talent Engine</div>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginTop: '0.25rem' }}>Enterprise Recruitment Tool</p>
         </div>
 
@@ -167,11 +167,7 @@ function App() {
           </div>
         )}
 
-        <div style={{ marginTop: 'auto', paddingTop: '1.5rem', borderTop: '1px solid var(--border-color)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-secondary)', fontSize: '0.8rem' }}>
-            <Settings size={14} /> System Settings
-          </div>
-        </div>
+
       </aside>
 
       {/* MAIN CONTENT */}
@@ -201,7 +197,7 @@ function App() {
         )}
 
         {loading && processingText && (
-          <div className="glass-card" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', borderLeft: '4px solid var(--accent-primary)', background: 'linear-gradient(90deg, #3b82f610, transparent)' }}>
+          <div className="glass-card" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', borderLeft: '4px solid var(--accent-primary)', background: 'linear-gradient(90deg, rgba(255,255,255,0.05), transparent)' }}>
             <div className="spin-loader"></div>
             <div>
               <h3 style={{ fontSize: '1rem', marginBottom: '0.25rem', fontWeight: 700 }}>{processingText}</h3>
@@ -214,12 +210,12 @@ function App() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            style={{ height: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', background: 'radial-gradient(circle at center, #3b82f605, transparent)', borderRadius: '24px' }}
+            style={{ height: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', background: 'radial-gradient(circle at center, rgba(255,255,255,0.02), transparent)', borderRadius: '24px' }}
           >
             <div style={{ position: 'relative', marginBottom: '2.5rem' }}>
               <BrainCircuit size={80} style={{ color: 'var(--accent-primary)', opacity: 0.8 }} />
               <motion.div
-                animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
+                animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }}
                 transition={{ repeat: Infinity, duration: 3 }}
                 style={{ position: 'absolute', inset: -20, background: 'var(--accent-primary)', filter: 'blur(40px)', borderRadius: '50%', zIndex: -1 }}
               />
@@ -248,7 +244,7 @@ function App() {
                 <div>
                   <h3 style={{ fontSize: '1.2rem', marginBottom: '0.25rem' }}>{cand.name.split('.')[0]}</h3>
                   <div style={{ display: 'flex', gap: '0.5rem' }}>
-                    <span className="skill-tag" style={{ background: 'var(--accent-primary)', padding: '0.1rem 0.4rem' }}>MATCH</span>
+                    <span className="skill-tag" style={{ background: 'var(--accent-primary)', color: '#000', fontWeight: 600, padding: '0.1rem 0.4rem' }}>MATCH</span>
                   </div>
                 </div>
                 <div className="score-circle">
