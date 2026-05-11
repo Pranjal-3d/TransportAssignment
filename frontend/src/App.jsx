@@ -17,7 +17,8 @@ import {
   Binary,
   Layers,
   Zap,
-  Activity
+  Activity,
+  Menu
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -33,6 +34,7 @@ function App() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [processingText, setProcessingText] = useState('');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const parseJD = async () => {
     if (!jdText) return;
@@ -101,9 +103,17 @@ function App() {
   };
 
   return (
-    <div className="app-wrapper">
+    <div className={`app-wrapper ${sidebarOpen ? 'sidebar-open' : ''}`}>
+      {/* MOBILE HEADER */}
+      <header className="mobile-header">
+        <div className="tool-name">AI Talent Engine</div>
+        <button className="menu-toggle" onClick={() => setSidebarOpen(!sidebarOpen)}>
+          {sidebarOpen ? <X /> : <Menu />}
+        </button>
+      </header>
+
       {/* SIDEBAR */}
-      <aside className="sidebar">
+      <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
           <div className="tool-name">AI Talent Engine <span className="tool-tag">v2.1</span></div>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginTop: '0.25rem' }}>Enterprise Recruitment Tool</p>
@@ -121,7 +131,7 @@ function App() {
           <button
             className="btn-primary"
             style={{ marginTop: '1rem' }}
-            onClick={parseJD}
+            onClick={() => { parseJD(); setSidebarOpen(false); }}
             disabled={loading || !jdText}
           >
             {loading ? 'Processing...' : 'Run Extraction'}
@@ -139,7 +149,7 @@ function App() {
               type="file"
               multiple
               hidden
-              onChange={handleFileUpload}
+              onChange={(e) => { handleFileUpload(e); setSidebarOpen(false); }}
               disabled={loading}
             />
           </div>
@@ -171,7 +181,7 @@ function App() {
             <h1 style={{ fontSize: '2rem', fontWeight: 800, letterSpacing: '-0.03em', marginBottom: '0.5rem' }}>Analysis Dashboard</h1>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>Real-time semantic evaluation & ranking system.</p>
           </div>
-          <div style={{ display: 'flex', gap: '1.5rem' }}>
+          <div className="stats-container">
             <StatsCard label="Evaluated" value={candidates.length} icon={<Users size={14} />} />
             <StatsCard label="Avg. Match" value={candidates.length ? (candidates.reduce((acc, c) => acc + c.final_score, 0) / candidates.length).toFixed(1) : '0.0'} icon={<TrendingUp size={14} />} />
             <StatsCard label="System Load" value="Optimal" icon={<Zap size={14} />} />
