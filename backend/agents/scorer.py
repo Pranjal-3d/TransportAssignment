@@ -30,7 +30,7 @@ class ScoringResult(BaseModel):
 
 class HRScorer:
     def __init__(self, api_key: str):
-        model_name = os.getenv("MODEL_NAME", "gemini-1.5-flash-latest")
+        model_name = os.getenv("MODEL_NAME", "gemini-1.5-flash")
         self.llm = ChatGoogleGenerativeAI(
             model=model_name,
             google_api_key=api_key,
