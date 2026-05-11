@@ -1,0 +1,3 @@
+import inspect
+from langchain_google_genai import ChatGoogleGenerativeAI
+print(inspect.signature(ChatGoogleGenerativeAI.__init__))

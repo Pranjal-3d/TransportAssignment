@@ -30,11 +30,11 @@ class ScoringResult(BaseModel):
 
 class HRScorer:
     def __init__(self, api_key: str):
-        model_name = os.getenv("MODEL_NAME", "gemini-2.0-flash")
+        model_name = os.getenv("MODEL_NAME", "gemini-1.5-flash-latest")
         self.llm = ChatGoogleGenerativeAI(
             model=model_name,
             google_api_key=api_key,
-            temperature=0
+            temperature=0,
         )
         self.jd_parser = PydanticOutputParser(pydantic_object=JDRequirements)
         self.score_parser = PydanticOutputParser(pydantic_object=ScoringResult)

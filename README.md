@@ -4,6 +4,13 @@ A premium, enterprise-grade AI HR agent that automates the candidate screening p
 
 ---
 
+## 📸 Dashboard Preview
+
+![Dashboard Overview](./image/Screenshot%202026-05-11%20132529.png)
+![Analysis Details](./image/Screenshot%202026-05-11%20132542.png)
+
+---
+
 ## 🏗️ Agent Architecture
 
 ```mermaid
