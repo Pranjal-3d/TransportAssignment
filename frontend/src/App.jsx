@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { 
-  Plus, 
-  Search, 
-  Upload, 
-  Users, 
-  FileText, 
-  ChevronRight, 
-  TrendingUp, 
+import {
+  Plus,
+  Search,
+  Upload,
+  Users,
+  FileText,
+  ChevronRight,
+  TrendingUp,
   AlertCircle,
   X,
   CheckCircle2,
@@ -21,7 +21,8 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const API_BASE = 'http://localhost:8000';
+const API_BASE = import.meta.env.VITE_API_BASE || 'https://transportassignment.onrender.com';
+console.log('API_BASE being used:', API_BASE);
 
 function App() {
   const [jdText, setJdText] = useState('');
@@ -44,7 +45,8 @@ function App() {
       setJdReqs(res.data);
       setSuccess('Job Profile synchronized.');
     } catch (err) {
-      setError('System Error: JD Parsing failed.');
+      const msg = err.response?.data?.detail || err.message;
+      setError(`System Error: JD Parsing failed. (${msg})`);
     } finally {
       setLoading(false);
     }
@@ -53,12 +55,12 @@ function App() {
   const handleFileUpload = async (e) => {
     const files = e.target.files;
     if (!files.length) return;
-    
+
     if (!jdReqs) {
       setError('Workflow Error: Set Job Profile first.');
       return;
     }
-    
+
     setLoading(true);
     setProcessingText('Analyzing Ingested Files...');
     setError('');
@@ -77,7 +79,8 @@ function App() {
         setError('Extraction Error: No data found in artifacts.');
       }
     } catch (err) {
-      setError('Connection Error: Evaluation pipeline severed.');
+      const msg = err.response?.data?.detail || err.message;
+      setError(`Connection Error: Evaluation pipeline severed. (${msg})`);
     } finally {
       setLoading(false);
       setProcessingText('');
@@ -109,16 +112,16 @@ function App() {
         <div style={{ marginBottom: '2rem' }}>
           <div className="section-title"><LayoutDashboard size={14} /> Source Configuration</div>
           <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '0.75rem' }}>Job Description (Raw Text)</p>
-          <textarea 
+          <textarea
             className="enterprise-textarea"
             value={jdText}
             onChange={(e) => setJdText(e.target.value)}
             placeholder="Paste raw JD text here..."
           />
-          <button 
-            className="btn-primary" 
+          <button
+            className="btn-primary"
             style={{ marginTop: '1rem' }}
-            onClick={parseJD} 
+            onClick={parseJD}
             disabled={loading || !jdText}
           >
             {loading ? 'Processing...' : 'Run Extraction'}
@@ -131,12 +134,12 @@ function App() {
             <Upload size={24} style={{ marginBottom: '1rem', opacity: 0.5 }} />
             <p style={{ fontSize: '0.85rem', fontWeight: 600 }}>Click to Upload Artifacts</p>
             <p style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>PDF, DOCX, JSON</p>
-            <input 
-              id="fileInput" 
-              type="file" 
-              multiple 
-              hidden 
-              onChange={handleFileUpload} 
+            <input
+              id="fileInput"
+              type="file"
+              multiple
+              hidden
+              onChange={handleFileUpload}
               disabled={loading}
             />
           </div>
@@ -146,18 +149,18 @@ function App() {
           <div style={{ padding: '1rem', background: '#ffffff05', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
             <div className="section-title" style={{ marginBottom: '0.75rem' }}>Current Profile</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
-               {jdReqs.skills.slice(0, 8).map((s, i) => (
-                 <span key={i} className="skill-tag">{s}</span>
-               ))}
+              {jdReqs.skills.slice(0, 8).map((s, i) => (
+                <span key={i} className="skill-tag">{s}</span>
+              ))}
             </div>
             <p style={{ fontSize: '0.75rem', marginTop: '0.75rem', color: 'var(--text-muted)' }}>Required: {jdReqs.experience_years}</p>
           </div>
         )}
 
         <div style={{ marginTop: 'auto', paddingTop: '1.5rem', borderTop: '1px solid var(--border-color)' }}>
-           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-secondary)', fontSize: '0.8rem' }}>
-              <Settings size={14} /> System Settings
-           </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-secondary)', fontSize: '0.8rem' }}>
+            <Settings size={14} /> System Settings
+          </div>
         </div>
       </aside>
 
@@ -169,9 +172,9 @@ function App() {
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>Real-time semantic evaluation & ranking system.</p>
           </div>
           <div style={{ display: 'flex', gap: '1.5rem' }}>
-             <StatsCard label="Evaluated" value={candidates.length} icon={<Users size={14} />} />
-             <StatsCard label="Avg. Match" value={candidates.length ? (candidates.reduce((acc, c) => acc + c.final_score, 0) / candidates.length).toFixed(1) : '0.0'} icon={<TrendingUp size={14} />} />
-             <StatsCard label="System Load" value="Optimal" icon={<Zap size={14} />} />
+            <StatsCard label="Evaluated" value={candidates.length} icon={<Users size={14} />} />
+            <StatsCard label="Avg. Match" value={candidates.length ? (candidates.reduce((acc, c) => acc + c.final_score, 0) / candidates.length).toFixed(1) : '0.0'} icon={<TrendingUp size={14} />} />
+            <StatsCard label="System Load" value="Optimal" icon={<Zap size={14} />} />
           </div>
         </header>
 
@@ -189,63 +192,63 @@ function App() {
 
         {loading && processingText && (
           <div className="glass-card" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', borderLeft: '4px solid var(--accent-primary)', background: 'linear-gradient(90deg, #3b82f610, transparent)' }}>
-             <div className="spin-loader"></div>
-             <div>
-                <h3 style={{ fontSize: '1rem', marginBottom: '0.25rem', fontWeight: 700 }}>{processingText}</h3>
-                <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>AI models are currently calculating multidimensional semantic scores...</p>
-             </div>
+            <div className="spin-loader"></div>
+            <div>
+              <h3 style={{ fontSize: '1rem', marginBottom: '0.25rem', fontWeight: 700 }}>{processingText}</h3>
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>AI models are currently calculating multidimensional semantic scores...</p>
+            </div>
           </div>
         )}
 
         {!loading && candidates.length === 0 && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             style={{ height: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', background: 'radial-gradient(circle at center, #3b82f605, transparent)', borderRadius: '24px' }}
           >
-             <div style={{ position: 'relative', marginBottom: '2.5rem' }}>
-                <BrainCircuit size={80} style={{ color: 'var(--accent-primary)', opacity: 0.8 }} />
-                <motion.div 
-                  animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
-                  transition={{ repeat: Infinity, duration: 3 }}
-                  style={{ position: 'absolute', inset: -20, background: 'var(--accent-primary)', filter: 'blur(40px)', borderRadius: '50%', zIndex: -1 }}
-                />
-             </div>
-             <h2 style={{ fontSize: '1.75rem', fontWeight: 700, marginBottom: '1rem' }}>Awaiting System Input</h2>
-             <p style={{ maxWidth: '500px', color: 'var(--text-secondary)', lineHeight: 1.6, fontSize: '1.05rem', marginBottom: '2rem' }}>
-                The evaluation engine is standing by. To begin the analysis, please configure the <b>Job Profile</b> in the sidebar and upload <b>Candidate Artifacts</b>.
-             </p>
-             <div style={{ display: 'flex', gap: '1rem' }}>
-                <div className="skill-tag" style={{ padding: '0.5rem 1rem' }}>1. Define Requirements</div>
-                <div className="skill-tag" style={{ padding: '0.5rem 1rem' }}>2. Ingest Resumes</div>
-                <div className="skill-tag" style={{ padding: '0.5rem 1rem' }}>3. Review Rankings</div>
-             </div>
+            <div style={{ position: 'relative', marginBottom: '2.5rem' }}>
+              <BrainCircuit size={80} style={{ color: 'var(--accent-primary)', opacity: 0.8 }} />
+              <motion.div
+                animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
+                transition={{ repeat: Infinity, duration: 3 }}
+                style={{ position: 'absolute', inset: -20, background: 'var(--accent-primary)', filter: 'blur(40px)', borderRadius: '50%', zIndex: -1 }}
+              />
+            </div>
+            <h2 style={{ fontSize: '1.75rem', fontWeight: 700, marginBottom: '1rem' }}>Awaiting System Input</h2>
+            <p style={{ maxWidth: '500px', color: 'var(--text-secondary)', lineHeight: 1.6, fontSize: '1.05rem', marginBottom: '2rem' }}>
+              The evaluation engine is standing by. To begin the analysis, please configure the <b>Job Profile</b> in the sidebar and upload <b>Candidate Artifacts</b>.
+            </p>
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              <div className="skill-tag" style={{ padding: '0.5rem 1rem' }}>1. Define Requirements</div>
+              <div className="skill-tag" style={{ padding: '0.5rem 1rem' }}>2. Ingest Resumes</div>
+              <div className="skill-tag" style={{ padding: '0.5rem 1rem' }}>3. Review Rankings</div>
+            </div>
           </motion.div>
         )}
 
         <div className="ranking-container">
           {candidates.map((cand, idx) => (
-            <div 
-              key={cand.id} 
+            <div
+              key={cand.id}
               className="candidate-card"
               onClick={() => setSelectedCandidate(cand)}
               style={{ cursor: 'pointer' }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
                 <div>
-                   <h3 style={{ fontSize: '1.2rem', marginBottom: '0.25rem' }}>{cand.name.split('.')[0]}</h3>
-                   <div style={{ display: 'flex', gap: '0.5rem' }}>
-                      <span className="skill-tag" style={{ background: 'var(--accent-primary)', padding: '0.1rem 0.4rem' }}>MATCH</span>
-                   </div>
+                  <h3 style={{ fontSize: '1.2rem', marginBottom: '0.25rem' }}>{cand.name.split('.')[0]}</h3>
+                  <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    <span className="skill-tag" style={{ background: 'var(--accent-primary)', padding: '0.1rem 0.4rem' }}>MATCH</span>
+                  </div>
                 </div>
                 <div className="score-circle">
-                   {cand.final_score.toFixed(1)}
+                  {cand.final_score.toFixed(1)}
                 </div>
               </div>
 
               <MetricRow label="Skills Alignment" score={cand.scores.skills_match.score} />
               <MetricRow label="Domain Expertise" score={cand.scores.experience_relevance.score} />
-              
+
               <div style={{ marginTop: '1.5rem', display: 'flex', alignItems: 'center', justifySelf: 'flex-end', gap: '0.5rem', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
                 View Analysis Details <ChevronRight size={14} />
               </div>
@@ -258,11 +261,11 @@ function App() {
       <AnimatePresence>
         {selectedCandidate && (
           <div className="modal-backdrop" onClick={() => setSelectedCandidate(null)}>
-            <motion.div 
-               initial={{ opacity: 0, scale: 0.95 }}
-               animate={{ opacity: 1, scale: 1 }}
-               className="modal-content"
-               onClick={(e) => e.stopPropagation()}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="modal-content"
+              onClick={(e) => e.stopPropagation()}
             >
               <div className="modal-header">
                 <div>
@@ -275,45 +278,45 @@ function App() {
               <div className="modal-body">
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '3rem' }}>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-                     <div style={{ background: '#00000020', padding: '1.5rem', borderRadius: '12px', border: '1px solid var(--border-color)' }}>
-                        <div className="section-title"><BrainCircuit size={14} /> AI Recommendation</div>
-                        <p style={{ fontSize: '0.9rem', lineHeight: 1.6, color: 'var(--text-secondary)' }}>
-                           {selectedCandidate.scores.hire_recommendation}
-                        </p>
-                     </div>
+                    <div style={{ background: '#00000020', padding: '1.5rem', borderRadius: '12px', border: '1px solid var(--border-color)' }}>
+                      <div className="section-title"><BrainCircuit size={14} /> AI Recommendation</div>
+                      <p style={{ fontSize: '0.9rem', lineHeight: 1.6, color: 'var(--text-secondary)' }}>
+                        {selectedCandidate.scores.hire_recommendation}
+                      </p>
+                    </div>
 
-                     <DetailedMetric label="Technical Proficiency" score={selectedCandidate.scores.skills_match} />
-                     <DetailedMetric label="Experience Relevance" score={selectedCandidate.scores.experience_relevance} />
+                    <DetailedMetric label="Technical Proficiency" score={selectedCandidate.scores.skills_match} />
+                    <DetailedMetric label="Experience Relevance" score={selectedCandidate.scores.experience_relevance} />
                   </div>
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-                     <DetailedMetric label="Academic Background" score={selectedCandidate.scores.education_certs} />
-                     
-                     <div className="glass-card" style={{ padding: '1.5rem', border: '1px solid var(--accent-primary)' }}>
-                        <div className="section-title" style={{ color: 'var(--accent-primary)' }}><Settings size={14} /> Admin Override</div>
-                        <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>Calibrate system-generated score manually.</p>
-                        
-                        <input 
-                          type="range" min="0" max="10" step="0.1" 
-                          defaultValue={selectedCandidate.final_score}
-                          style={{ width: '100%', marginBottom: '1.5rem' }}
-                          id="scoreOverride"
-                        />
-                        <textarea 
-                          id="reasonOverride"
-                          placeholder="Override justification..."
-                          className="enterprise-textarea"
-                          style={{ minHeight: '80px', marginBottom: '1rem' }}
-                        />
-                        <button 
-                          className="btn-primary"
-                          onClick={() => {
-                            const val = document.getElementById('scoreOverride').value;
-                            const rsn = document.getElementById('reasonOverride').value;
-                            applyOverride(selectedCandidate.id, val, rsn);
-                          }}
-                        >Commit Adjustment</button>
-                     </div>
+                    <DetailedMetric label="Academic Background" score={selectedCandidate.scores.education_certs} />
+
+                    <div className="glass-card" style={{ padding: '1.5rem', border: '1px solid var(--accent-primary)' }}>
+                      <div className="section-title" style={{ color: 'var(--accent-primary)' }}><Settings size={14} /> Admin Override</div>
+                      <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>Calibrate system-generated score manually.</p>
+
+                      <input
+                        type="range" min="0" max="10" step="0.1"
+                        defaultValue={selectedCandidate.final_score}
+                        style={{ width: '100%', marginBottom: '1.5rem' }}
+                        id="scoreOverride"
+                      />
+                      <textarea
+                        id="reasonOverride"
+                        placeholder="Override justification..."
+                        className="enterprise-textarea"
+                        style={{ minHeight: '80px', marginBottom: '1rem' }}
+                      />
+                      <button
+                        className="btn-primary"
+                        onClick={() => {
+                          const val = document.getElementById('scoreOverride').value;
+                          const rsn = document.getElementById('reasonOverride').value;
+                          applyOverride(selectedCandidate.id, val, rsn);
+                        }}
+                      >Commit Adjustment</button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -322,7 +325,8 @@ function App() {
         )}
       </AnimatePresence>
 
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         .spin-loader {
           width: 24px;
           height: 24px;

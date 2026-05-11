@@ -23,7 +23,7 @@ app.add_middleware(
 )
 
 # Temp storage for files
-UPLOAD_DIR = "temp_uploads"
+UPLOAD_DIR = "/tmp/temp_uploads" if os.name != 'nt' else "temp_uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 # Shared state (in-memory for demo, could be SQLite)
@@ -51,7 +51,11 @@ async def parse_jd(jd_text: str = Form(...)):
         state.jd_reqs = scorer.parse_jd(jd_text)
         return state.jd_reqs
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        error_msg = f"LLM Error: {str(e)}"
+        print(f"JD Parsing Error: {error_msg}")
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=error_msg)
 
 @app.post("/evaluate-candidates")
 async def evaluate_candidates(files: List[UploadFile] = File(...)):
